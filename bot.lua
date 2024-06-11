@@ -87,5 +87,5 @@ end
 
 while true do
 	chatMessage('I am the cuss bot! say .cuss for me to cuss!')
-	task.wait(30)
+	task.wait(10)
 end
