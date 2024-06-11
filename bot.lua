@@ -34,13 +34,20 @@ local Players = game:GetService('Players')
 
 local list = {
 	'pussy',
-	'nigger',
+	'nigga',
+	'touch my butthole',
+	'cracker',
+	'rape',
+	'cums a lot',
 	'fuck nigger',
 	'xvideos.com',
 	'cunt',
 	'dick',
 	'deepthroat',
-	'shit'
+	'shit',
+	'touch my dick',
+	'porn hub',
+	'get free robux by visiting jerkmate',
 }
 
 local TextChatService = game:GetService('TextChatService')
