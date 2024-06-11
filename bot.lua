@@ -35,7 +35,7 @@ local Players = game:GetService('Players')
 local list = {
 	'pussy',
 	'nigger',
-	'fuck',
+	'cunt',
 	'shit'
 }
 
@@ -87,5 +87,5 @@ end
 
 while true do
 	chatMessage('I am the cuss bot! say .cuss for me to cuss!')
-	task.wait(10)
+	task.wait(30)
 end
