@@ -48,6 +48,10 @@ local list = {
 	'touch my dick',
 	'porn hub',
 	'get free robux by visiting jerkmate',
+	'cock',
+	'my mouth is oozing with cum!',
+	'erm what the nigga',
+	'it aint gonna beat itself',
 }
 
 local TextChatService = game:GetService('TextChatService')
