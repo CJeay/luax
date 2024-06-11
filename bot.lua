@@ -85,4 +85,7 @@ else
 	
 end
 
-chatMessage('I am the cuss bot! say .cuss for me to cuss!')
+while true do
+	chatMessage('I am the cuss bot! say .cuss for me to cuss!')
+	task.wait(30)
+end
