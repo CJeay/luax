@@ -1,3 +1,29 @@
+repeat task.wait() until game:IsLoaded()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnthonyIsntHere/anthonysrepository/main/scripts/AntiChatLogger.lua", true))()
+wait()
+
+local custom_chars = {
+	[" "] = "￰",
+	["i"] = "і",
+	["e"] = "е",
+	["g"] = "g",
+	["c"] = "с",
+	["o"] = "о",
+	["p"] = "р",
+	["s"] = "ѕ",
+	["u"] = "u",
+	["I"] = "Ӏ",
+	["E"] = "Е",
+	["G"] = "ꓖ",
+	["C"] = "С",
+	["O"] = "О",
+	["P"] = "Р",
+	["S"] = "Ѕ",
+	["U"] = "𐓎"
+}
+
+local default = " ိ"
+
 game.StarterGui:SetCore("SendNotification", {
 	Title = "Swear Bot";
 	Text = "LMAO";
@@ -7,10 +33,10 @@ game.StarterGui:SetCore("SendNotification", {
 local Players = game:GetService('Players')
 
 local list = {
-	'FAG￰рuѕѕy',
-	'FAG￰nіggеr',
-	'FAG￰fuсk',
-	'FAG￰ѕhіt'
+	'pussy',
+	'nigger',
+	'fuck',
+	'shit'
 }
 
 local TextChatService = game:GetService('TextChatService')
@@ -29,7 +55,14 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 	
 	TextChatService.MessageReceived:Connect(function(message)
 		if message == '.cuss' then
-			chatMessage(list[math.random(1,#list)])
+			local newMessage = list[math.random(1,#list)]
+			for i,v in pairs(custom_chars) do
+				local rep = string.gsub(newMessage, i, v .. "⁥")
+				newMessage = rep
+			end
+			newMessage = "FAG￰" .. newMessage .. default
+
+			chatMessage(newMessage)
 		end
 	end)
 	
@@ -38,9 +71,18 @@ else
 	for i, v in pairs(Players:GetChildren()) do
 		v.Chatted:Connect(function(message)
 			if message == '.cuss' then
-				chatMessage(list[math.random(1,#list)])
+				local newMessage = list[math.random(1,#list)]
+				for i,v in pairs(custom_chars) do
+					local rep = string.gsub(newMessage, i, v .. "⁥")
+					newMessage = rep
+				end
+				newMessage = "FAG￰" .. newMessage .. default
+
+				chatMessage(newMessage)
 			end
 		end)
 	end
 	
 end
+
+chatMessage('I am the cuss bot! say .cuss for me to cuss!')
