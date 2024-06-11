@@ -83,7 +83,7 @@ for i,v in pairs(plrs:GetPlayers()) do
 					if not getgenv().Following then
 						break
 					end
-					plr.Character:WaitForChild("HumanoidRootPart").CFrame = followingplr.Character:WaitForChild("HumanoidRootPart").CFrame - (followingplr.Character:WaitForChild("HumanoidRootPart").lookVector * 5) + followingplr.Character:WaitForChild("HumanoidRootPart")
+					plr.Character:WaitForChild("HumanoidRootPart").CFrame = followingplr.Character:WaitForChild("HumanoidRootPart").CFrame - (followingplr.Character:WaitForChild("HumanoidRootPart").CFrame.lookVector * 5) + followingplr.Character:WaitForChild("HumanoidRootPart")
 				end
 			end)
 			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("now following " .. followingplr.Name,"All")
