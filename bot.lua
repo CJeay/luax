@@ -35,7 +35,11 @@ local Players = game:GetService('Players')
 local list = {
 	'pussy',
 	'nigger',
+	'fuck nigger',
+	'xvideos.com',
 	'cunt',
+	'dick',
+	'deepthroat',
 	'shit'
 }
 
