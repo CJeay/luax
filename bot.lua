@@ -79,6 +79,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 	
 else
 	
+	while true do
 	for i, v in pairs(Players:GetChildren()) do
 		v.Chatted:Connect(function(message)
 			if message == '.cuss' then
@@ -92,6 +93,8 @@ else
 				chatMessage(newMessage)
 			end
 		end)
+	end
+	task.wait(1)
 	end
 	
 end
