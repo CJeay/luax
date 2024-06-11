@@ -83,7 +83,7 @@ for i,v in pairs(plrs:GetPlayers()) do
 					if not getgenv().Following then
 						break
 					end
-					plr.Character:WaitForChild("HumanoidRootPart").CFrame = followingplr.Character:WaitForChild("HumanoidRootPart").CFrame - (followingplr.Character:WaitForChild("HumanoidRootPart").CFrame.lookVector * 5) + followingplr.Character:WaitForChild("HumanoidRootPart")
+					plr.Character:WaitForChild("HumanoidRootPart").CFrame = followingplr.Character:WaitForChild("HumanoidRootPart").CFrame +followingplr.Character:WaitForChild("HumanoidRootPart")
 				end
 			end)
 			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("now following " .. followingplr.Name,"All")
@@ -141,4 +141,4 @@ ANTIAFK = game.Players.LocalPlayer.Idled:connect(function()
 	task.wait(1)
 	game:FindService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("loaded\","All")
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/loaded bot","All")
