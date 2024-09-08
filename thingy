@@ -1,0 +1,228 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local TextButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+
+--Properties:
+
+ScreenGui.Parent = game:GetService('CoreGui')
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BackgroundTransparency = 0.500
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+Frame.Size = UDim2.new(0, 300, 0, 300)
+
+TextBox.Parent = Frame
+TextBox.AnchorPoint = Vector2.new(0.5, 0)
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BackgroundTransparency = 0.900
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.5, 0, 0, 20)
+TextBox.Size = UDim2.new(1, 0, 0.5, -40)
+TextBox.Font = Enum.Font.Unknown
+TextBox.PlaceholderText = "just put a username here not display plez"
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextScaled = true
+TextBox.TextSize = 14.000
+TextBox.TextWrapped = true
+
+TextButton.Parent = Frame
+TextButton.AnchorPoint = Vector2.new(0.5, 1)
+TextButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BackgroundTransparency = 0.900
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.5, 0, 1, 0)
+TextButton.Size = UDim2.new(1, 0, 0.5, 0)
+TextButton.Font = Enum.Font.Unknown
+TextButton.Text = "follow thjis guy"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+
+UICorner.CornerRadius = UDim.new(1, 0)
+UICorner.Parent = TextButton
+
+-- Scripts:
+
+local function DWSD_fake_script() -- Frame.DraggableUI 
+	local script = Instance.new('LocalScript', Frame)
+
+	local container = script.Parent
+	local rs = game:GetService("RunService")
+	local uis = game:GetService("UserInputService")
+	local cmp
+	local dragging = false
+	local resizing = false
+	local resizeStart
+	local initialSize
+	local initialPosition
+	local resizeDirection
+	
+	-- Scaling limits
+	local maxWidth = 800
+	local maxHeight = 600
+	local minWidth = 200
+	local minHeight = 150
+	
+	-- Create resizer handles
+	local handles = {
+		Top = Instance.new("Frame"),
+		Bottom = Instance.new("Frame"),
+		Left = Instance.new("Frame"),
+		Right = Instance.new("Frame"),
+		TopLeft = Instance.new("Frame"),
+		TopRight = Instance.new("Frame"),
+		BottomLeft = Instance.new("Frame"),
+		BottomRight = Instance.new("Frame")
+	}
+	
+	for direction, handle in pairs(handles) do
+		handle.Name = direction
+		handle.Size = UDim2.new(1, -10, 0, 10)
+		handle.BackgroundTransparency = 1
+		handle.Parent = container
+	end
+	
+	handles.Top.AnchorPoint = Vector2.new(0.5, 0)
+	handles.Top.Position = UDim2.new(0.5, 0, 0, -5)
+	
+	handles.Bottom.AnchorPoint = Vector2.new(0.5, 1)
+	handles.Bottom.Position = UDim2.new(0.5, 0, 1, 5)
+	
+	handles.Left.AnchorPoint = Vector2.new(0, 0.5)
+	handles.Left.Size = UDim2.new(0, 10, 1, -10)
+	handles.Left.Position = UDim2.new(0, -5, 0.5, 0)
+	
+	handles.Right.AnchorPoint = Vector2.new(1, 0.5)
+	handles.Right.Size = UDim2.new(0, 10, 1, -10)
+	handles.Right.Position = UDim2.new(1, 5, 0.5, 0)
+	
+	handles.TopLeft.AnchorPoint = Vector2.new(0, 0)
+	handles.TopLeft.Size = UDim2.new(0, 10, 0, 10)
+	handles.TopLeft.Position = UDim2.new(0, -5, 0, -5)
+	handles.TopLeft.ZIndex = 2
+	
+	handles.TopRight.AnchorPoint = Vector2.new(1, 0)
+	handles.TopRight.Size = UDim2.new(0, 10, 0, 10)
+	handles.TopRight.Position = UDim2.new(1, 5, 0, -5)
+	handles.TopRight.ZIndex = 2
+	
+	handles.BottomLeft.AnchorPoint = Vector2.new(0, 1)
+	handles.BottomLeft.Size = UDim2.new(0, 10, 0, 10)
+	handles.BottomLeft.Position = UDim2.new(0, -5, 1, 5)
+	handles.BottomLeft.ZIndex = 2
+	
+	handles.BottomRight.AnchorPoint = Vector2.new(1, 1)
+	handles.BottomRight.Size = UDim2.new(0, 10, 0, 10)
+	handles.BottomRight.Position = UDim2.new(1, 5, 1, 5)
+	handles.BottomRight.ZIndex = 2
+	
+	--<<FUNCTIONS>>--
+	
+	container.InputBegan:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			cmp = uis:GetMouseLocation()
+			dragging = true
+		end
+	end)
+	
+	container.InputEnded:connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = false
+		end
+	end)
+	
+	for direction, handle in pairs(handles) do
+		handle.InputBegan:connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				resizeStart = uis:GetMouseLocation()
+				initialSize = container.Size
+				initialPosition = container.Position
+				resizeDirection = direction
+				resizing = true
+				dragging = false -- Ensure it can't scale and move at the same time
+				uis.MouseIcon = "rbxasset://textures/Cursors/DragDetector/ActivatedCursor.png"
+			end
+		end)
+	
+		handle.InputEnded:connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				resizing = false
+				uis.MouseIcon = "rbxasset://textures/Cursors/KeyboardMouse/ArrowFarCursor.png"
+			end
+		end)
+	end
+	
+	rs.RenderStepped:connect(function()
+		if dragging and not resizing then
+			local MousePosition = uis:GetMouseLocation()
+			local MoveX = cmp.X - MousePosition.X
+			local MoveY = cmp.Y - MousePosition.Y
+			cmp = MousePosition
+			container.Position = container.Position - UDim2.new(0, MoveX, 0, MoveY)
+		end
+	
+		if resizing then
+			local MousePosition = uis:GetMouseLocation()
+			local ResizeX = MousePosition.X - resizeStart.X
+			local ResizeY = MousePosition.Y - resizeStart.Y
+	
+			local newSizeX = initialSize.X.Offset
+			local newSizeY = initialSize.Y.Offset
+			local newPosX = initialPosition.X.Offset
+			local newPosY = initialPosition.Y.Offset
+	
+			if resizeDirection == "Top" or resizeDirection == "TopLeft" or resizeDirection == "TopRight" then
+				newSizeY = math.clamp(initialSize.Y.Offset - ResizeY, minHeight, maxHeight)
+				newPosY = initialPosition.Y.Offset + (initialSize.Y.Offset - newSizeY) / 2
+			elseif resizeDirection == "Bottom" or resizeDirection == "BottomLeft" or resizeDirection == "BottomRight" then
+				newSizeY = math.clamp(initialSize.Y.Offset + ResizeY, minHeight, maxHeight)
+				newPosY = initialPosition.Y.Offset + (newSizeY - initialSize.Y.Offset) / 2
+			end
+	
+			if resizeDirection == "Left" or resizeDirection == "TopLeft" or resizeDirection == "BottomLeft" then
+				newSizeX = math.clamp(initialSize.X.Offset - ResizeX, minWidth, maxWidth)
+				newPosX = initialPosition.X.Offset + (initialSize.X.Offset - newSizeX) / 2
+			elseif resizeDirection == "Right" or resizeDirection == "TopRight" or resizeDirection == "BottomRight" then
+				newSizeX = math.clamp(initialSize.X.Offset + ResizeX, minWidth, maxWidth)
+				newPosX = initialPosition.X.Offset + (newSizeX - initialSize.X.Offset) / 2
+			end
+	
+			container.Size = UDim2.new(0, newSizeX, 0, newSizeY)
+			container.Position = UDim2.new(0.5, newPosX, 0.5, newPosY)
+		end
+	end)
+	
+end
+coroutine.wrap(DWSD_fake_script)()
+local function BPIO_fake_script() -- Frame.DoTheThing 
+	local script = Instance.new('LocalScript', Frame)
+
+	local c = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+	script.Parent.TextButton.MouseButton1Down:Connect(function()
+		if game.Players:FindFirstChild(script.Parent.TextBox.Text) then
+			local char = game.Players:FindFirstChild(script.Parent.TextBox.Text).Character
+			repeat c.PrimaryPart.CFrame = char.PrimaryPart.CFrame + char.PrimaryPart.CFrame.LookVector*-2 task.wait() until not char.Head
+		else
+			script.Parent.TextBox.Text = 'bruh that guy doesnt exist or u forgot its capital sensitvi'
+			task.wait(1)
+			script.Parent.TextBox.Text = ''
+		end
+	end)
+end
+coroutine.wrap(BPIO_fake_script)()
